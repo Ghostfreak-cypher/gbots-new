@@ -11,6 +11,7 @@
   "dependencies": {
     "@splinetool/loader": "^1.10.48",
     "@splinetool/r3f-spline": "^1.0.2",
+    "@splinetool/react-spline": "^4.1.0",
     "autoprefixer": "^10.4.21",
     "gsap": "^3.13.0",
     "lucide-react": "^0.540.0",
