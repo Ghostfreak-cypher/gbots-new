@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useCallback, useMemo } from "react";
+import { useEffect, useRef, useCallback, useMemo, useState } from "react";
 import { gsap } from "gsap";
 
 const TargetCursor = ({
@@ -12,6 +12,7 @@ const TargetCursor = ({
   const cornersRef = useRef(null);
   const spinTl = useRef(null);
   const dotRef = useRef(null); 
+  const [enabled, setEnabled] = useState(false);
   const constants = useMemo(
     () => ({
       borderWidth: 3,
@@ -32,6 +33,16 @@ const TargetCursor = ({
   }, []);
 
   useEffect(() => {
+    // Enable only on desktop/fine pointer devices
+    const mq = window.matchMedia('(min-width: 768px) and (pointer: fine)');
+    const update = () => setEnabled(mq.matches);
+    update();
+    mq.addEventListener?.('change', update);
+    return () => mq.removeEventListener?.('change', update);
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
     if (!cursorRef.current) return;
 
     const originalCursor = document.body.style.cursor;
@@ -314,9 +325,10 @@ const TargetCursor = ({
       spinTl.current?.kill();
       document.body.style.cursor = originalCursor;
     };
-  }, [targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor]);
+  }, [enabled, targetSelector, spinDuration, moveCursor, constants, hideDefaultCursor]);
 
   useEffect(() => {
+    if (!enabled) return;
     if (!cursorRef.current || !spinTl.current) return;
     
     if (spinTl.current.isActive()) {
@@ -325,7 +337,9 @@ const TargetCursor = ({
         .timeline({ repeat: -1 })
         .to(cursorRef.current, { rotation: "+=360", duration: spinDuration, ease: "none" });
     }
-  }, [spinDuration]);
+  }, [enabled, spinDuration]);
+
+  if (!enabled) return null;
 
   return (
     <div

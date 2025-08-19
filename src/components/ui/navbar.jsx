@@ -25,17 +25,6 @@ const navigationItems = [
   { name: "Achievements", href: "/achievements", icon: Trophy },
 ];
 
-/**
- * Simple Navbar Component
- *
- * Clean, responsive navbar with essential features:
- * - Logo and navigation links
- * - Mobile menu
- * - Profile link
- *
- * @param {Object} props - Component props
- * @param {string} [props.className] - Additional CSS classes
- */
 export default function Navbar({ className }) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -46,7 +35,7 @@ export default function Navbar({ className }) {
 
   return (
     <nav
-      className={`bg-transparent w-full border-b border-themed absolute z-50 font-sans${
+      className={`w-full border-b border-gray-800 md:absolute md:bg-transparent bg-black/80 backdrop-blur supports-[backdrop-filter]:bg-black/60 sticky top-0 z-50 font-sans ${
         className || ""
       }`}
     >
@@ -55,36 +44,35 @@ export default function Navbar({ className }) {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center space-x-1 hover:opacity-80 transition-opacity"
+            className="flex items-center space-x-1 md:hover:opacity-80 md:transition-opacity"
           >
             <Image
               src={logo}
               alt="GROBOTS Logo"
               width={40}
               height={40}
-              className="w-12"
+              className="w-8 sm:w-10 md:w-12"
               priority
             />
-            <span className="text-xl font-bold text-foreground font-['Erode']">
+            <span className="text-lg sm:text-xl font-bold text-white font-['Erode']">
               GROBOTS
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
             {navigationItems.map((item) => {
               const isActive =
                 pathname === item.href ||
                 (item.href !== "/" && pathname.startsWith(item.href));
-
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`text-sm cursor-target font-medium font-sans transition-colors ${
+                  className={`text-sm lg:text-base font-medium md:transition-colors ${
                     isActive
-                      ? "text-primary"
-                      : "text-themed-muted hover:text-foreground"
+                      ? "text-blue-400"
+                      : "text-gray-300 md:hover:text-white"
                   }`}
                 >
                   {item.name}
@@ -94,26 +82,17 @@ export default function Navbar({ className }) {
           </div>
 
           {/* Right Section */}
-          <div className="flex items-center space-x-4">
-            {/* Profile Link */}
-            <Link
-              href="/userprofile"
-              className="btn-primary flex items-center cursor-target justify-center gap-2 rounded-2xl btn-md font-sans"
-            >
-              <User className="w-4 h-4" />
-              <span className="hidden sm:inline">Profile</span>
-            </Link>
-
+          <div className="flex items-center space-x-3 sm:space-x-4">
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-themed-muted hover:bg-accent transition-colors"
+              className="md:hidden p-2 rounded-lg text-gray-300 hover:bg-gray-800 md:transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5 sm:w-6 sm:h-6" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
               )}
             </button>
           </div>
@@ -121,26 +100,25 @@ export default function Navbar({ className }) {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-themed">
-            <div className="py-4 space-y-2">
+          <div className="md:hidden border-t border-gray-800">
+            <div className="py-3 px-2 space-y-1">
               {navigationItems.map((item) => {
                 const isActive =
                   pathname === item.href ||
                   (item.href !== "/" && pathname.startsWith(item.href));
                 const Icon = item.icon;
-
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium font-sans transition-colors ${
+                    className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium md:transition-colors ${
                       isActive
-                        ? "bg-accent text-primary"
-                        : "text-themed-muted hover:bg-accent hover:text-foreground"
+                        ? "bg-gray-200 text-black"
+                        : "text-gray-300 hover:bg-gray-800 hover:text-white"
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Icon className="w-5 h-5" />
+                    <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>{item.name}</span>
                   </Link>
                 );

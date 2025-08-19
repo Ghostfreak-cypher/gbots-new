@@ -9,10 +9,18 @@ import Cta from "@/components/home/cta"
 import WhatWeDo from "@/components/home/whatWeDo"
 
 function Home() {
+  const [isDesktop, setIsDesktop] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener?.('change', update);
+    return () => mq.removeEventListener?.('change', update);
+  }, []);
   return (
     <div className="home relative w-full min-h-screen">
       <LightRays />
-      <TargetCursor targetSelector=".cursor-target" />
+      {isDesktop && <TargetCursor targetSelector=".cursor-target" />}
       <Hero/>
       <About />
       <WhatWeDo />
