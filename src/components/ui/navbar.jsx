@@ -46,7 +46,7 @@ export default function Navbar({ className }) {
 
   return (
     <nav
-      className={`bg-transparent w-full border-b border-themed absolute z-50 ${
+      className={`bg-transparent w-full border-b border-themed absolute z-50 font-sans${
         className || ""
       }`}
     >
@@ -81,7 +81,7 @@ export default function Navbar({ className }) {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`text-sm font-medium font-['Satoshi'] transition-colors ${
+                  className={`text-sm cursor-target font-medium font-sans transition-colors ${
                     isActive
                       ? "text-primary"
                       : "text-themed-muted hover:text-foreground"
@@ -98,7 +98,7 @@ export default function Navbar({ className }) {
             {/* Profile Link */}
             <Link
               href="/userprofile"
-              className="btn-primary flex items-center justify-center gap-2 rounded-2xl btn-md font-['Satoshi']"
+              className="btn-primary flex items-center cursor-target justify-center gap-2 rounded-2xl btn-md font-sans"
             >
               <User className="w-4 h-4" />
               <span className="hidden sm:inline">Profile</span>
@@ -133,7 +133,7 @@ export default function Navbar({ className }) {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium font-['Satoshi'] transition-colors ${
+                    className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium font-sans transition-colors ${
                       isActive
                         ? "bg-accent text-primary"
                         : "text-themed-muted hover:bg-accent hover:text-foreground"

@@ -1,6 +1,7 @@
 import "./globals.css";
 import Footer from "@/components/ui/footer";
 import Navbar from "@/components/ui/navbar";
+import TargetCursor from "@/components/ui/tragetCursor";
 
 export const metadata = {
   title: "Create Next App",
@@ -10,12 +11,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark">
-      <body className="overflow-x-hidden">
-        <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
+      <body className="overflow-x-hidden font-sans">
+        <div >
+          <TargetCursor 
+            spinDuration={2}
+            hideDefaultCursor={true}
+          />
+          <Navbar />
+          <main className="flex-grow w-full h-full">
+            {children}
+          </main>
+          <Footer />
+        </div>
       </body>
     </html>
   );
