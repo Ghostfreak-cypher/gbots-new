@@ -69,10 +69,10 @@ export default function Navbar({ className }) {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`text-sm lg:text-base font-medium md:transition-colors ${
+                  className={`text-sm lg:text-base cursor-target font-medium md:transition-colors ${
                     isActive
-                      ? "text-blue-400"
-                      : "text-gray-300 md:hover:text-white"
+                      ? "text-gray-100"
+                      : "text-gray-500 md:hover:text-white"
                   }`}
                 >
                   {item.name}

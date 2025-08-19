@@ -1,26 +1,20 @@
-import React from 'react'
+"use client";
+
+import React, { useEffect, useMemo, useState } from 'react'
 import ProjectCard from "@/components/projects/card"
+import ProjectsGrid from "@/components/projects/ProjectsGrid";
 
-const projects = [
-    {
-      name: "Robotic Arm Controller",
-      subtitle: "A PID-controlled robotic arm for industrial automation.",
-      image: "/path/to/robotic-arm.jpg", // Optional
-    },
-    {
-      name: "Autonomous Drone",
-      subtitle: "AI-powered drone for surveillance and mapping.",
-      image: "/path/to/drone.jpg", // Optional
-    },
-    // Add more projects as needed
-  ];
-
-  
 function Projects() {
   return (
-    <div>
-        <ProjectCard projects={projects} />
-    </div>
+    <main className="w-full min-h-screen py-12 md:py-16">
+      <div className="mx-6 md:mx-20">
+        <header className="mb-8 md:mb-12">
+          <h1 className="text-[10vw] md:text-5xl font-bold leading-tight">Projects</h1>
+          <p className="mt-2 text-sm md:text-base text-themed-muted">Explore what we build.</p>
+        </header>
+        <ProjectsGrid />
+      </div>
+    </main>
   )
 }
 

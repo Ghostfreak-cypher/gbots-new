@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Share2, Twitter, Linkedin, Link as LinkIcon, ArrowLeft, ArrowRight, Home } from 'lucide-react'
+import { projectsAPI, apiUtils } from '@/lib/apiService'
 
 const ProgressBar = () => {
   const [progress, setProgress] = useState(0);
@@ -171,41 +172,56 @@ const Content = ({ children }) => {
 function ProjectDoc({ params }) {
   const { slug } = params;
 
-  const project = {
-    title: "Autonomous Drone",
-    subtitle: "AI-powered drone for surveillance and mapping.",
-    cover: "/path/to/drone.jpg",
-    date: "Aug 18, 2025",
-    readTime: "6 min read",
-    tags: ["Robotics", "AI", "Drones"],
-  };
+  const [project, setProject] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    setLoading(true);
+    projectsAPI
+      .getBySlug(slug)
+      .then((res) => {
+        if (!isMounted) return;
+        const p = res?.project || res?.data?.project || null;
+        setProject(p);
+      })
+      .catch((err) => setError(apiUtils.handleError(err)))
+      .finally(() => isMounted && setLoading(false));
+    return () => {
+      isMounted = false;
+    };
+  }, [slug]);
+
+  const title = project?.name || project?.title || "Project";
+  const subtitle = project?.shortDescription || project?.description || "";
+  const cover = project?.image || project?.poster || project?.cover || null;
+  const tags = Array.isArray(project?.tags) ? project.tags : [];
 
   return (
     <div className='relative min-h-screen pt-20'>
       <ProgressBar />
-      <Header title={project.title} subtitle={project.subtitle} cover={project.cover} />
-      <MetaBar tags={project.tags} date={project.date} readTime={project.readTime} />
+      <Header title={title} subtitle={subtitle} cover={cover} />
+      <MetaBar tags={tags} date={project?.year ? String(project.year) : undefined} readTime={undefined} />
       <Content>
-        <h2>Overview</h2>
-        <p>
-          This project explores an autonomous UAV platform capable of waypoint navigation,
-          real-time object detection, and map generation. The system integrates a lightweight
-          perception stack, robust control, and telemetry.
-        </p>
-        <h3>Architecture</h3>
-        <p>
-          The platform is composed of modules for perception, planning, and control. An onboard
-          companion computer runs inference and fuses sensor inputs to produce reliable state
-          estimation.
-        </p>
-        <h3>Highlights</h3>
-        <ul>
-          <li>Real-time object detection at 30 FPS on embedded hardware</li>
-          <li>Fail-safe RTL with geofencing</li>
-          <li>Cloud-backed telemetry and mission logs</li>
-        </ul>
-        <h3>Tech Stack</h3>
-        <p>PX4, MAVLink, ROS 2, TensorRT, OpenCV, WebRTC, TypeScript</p>
+        {error && (
+          <p className="text-sm text-red-400">{error}</p>
+        )}
+        {loading && (
+          <p className="text-sm text-themed-muted">Loading…</p>
+        )}
+        {!loading && !error && (
+          <>
+            <h2>Overview</h2>
+            <p>{subtitle}</p>
+            {project?.description && (
+              <>
+                <h3>Details</h3>
+                <p>{project.description}</p>
+              </>
+            )}
+          </>
+        )}
       </Content>
     </div>
   )

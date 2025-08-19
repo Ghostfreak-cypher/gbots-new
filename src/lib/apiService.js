@@ -281,6 +281,36 @@ export const eventsAPI = {
   }
 };
 
+// Projects API methods
+export const projectsAPI = {
+  // Get all projects with filters/pagination
+  getAll: async (filters = {}) => {
+    try {
+      const params = new URLSearchParams();
+      if (filters.category) params.append('category', filters.category);
+      if (filters.year) params.append('year', filters.year);
+      if (filters.weightClass) params.append('weightClass', filters.weightClass);
+      if (filters.search) params.append('search', filters.search);
+      if (filters.page) params.append('page', filters.page);
+      if (filters.limit) params.append('limit', filters.limit);
+      const response = await apiClient.get(`/projects/read?${params}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { error: 'Failed to fetch projects' };
+    }
+  },
+
+  // Get project by slug
+  getBySlug: async (slug) => {
+    try {
+      const response = await apiClient.get(`/projects/read?slug=${encodeURIComponent(slug)}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { error: 'Failed to fetch project' };
+    }
+  },
+};
+
 // Admin API methods
 export const adminAPI = {
   // Get admin dashboard statistics

@@ -22,7 +22,7 @@ function Footer() {
               <br className="hidden md:block" />
               explore the future of technology together.
             </p>
-            <button className="bg-button border border-gray-300 text-white px-8 py-4 rounded-xl shadow-lg transition-all duration-300 w-fit flex items-center group focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black">
+            <button className="bg-button border border-gray-300 cursor-target text-white px-8 py-4 rounded-xl shadow-lg transition-all duration-300 w-fit flex items-center group focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black">
               Join Us Now
               <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
             </button>
@@ -52,7 +52,7 @@ function Footer() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`w-10 h-10 bg-neutral-900 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 ${item.color} hover:scale-110 text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black`}
+                className={`w-10 h-10 bg-neutral-900 rounded-full cursor-target flex items-center justify-center cursor-pointer transition-all duration-300 ${item.color} hover:scale-110 text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-black`}
               >
                 {item.icon}
               </a>
