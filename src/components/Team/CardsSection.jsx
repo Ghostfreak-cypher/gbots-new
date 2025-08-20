@@ -137,24 +137,17 @@ const CardsSection = ({
   }
 
   return (
-    <section
-      className={`min-h-screen bg-gradient-to-br from-slate-950 via-gray-900 to-black py-20 ${className}`}
-    >
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-800/10 via-transparent to-transparent"></div>
-
+    <section className={`py-20 ${className}`}>
+      {/* Background Elements - Simplified to match hero theme */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Elegant grid pattern */}
-        <div className="absolute inset-0 opacity-5">
+        <div className="absolute inset-0 opacity-3">
           <div className="elegant-grid"></div>
         </div>
 
-        {/* Subtle light rays */}
-        <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-slate-500/10 to-transparent animate-pulse"></div>
-        <div
-          className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-slate-400/10 to-transparent animate-pulse"
-          style={{ animationDelay: "3s" }}
-        ></div>
+        {/* Subtle light rays - reduced opacity for consistency */}
+        <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-slate-500/5 to-transparent"></div>
+        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-slate-400/5 to-transparent"></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-4 sm:px-8 md:px-12 lg:px-20">
@@ -172,11 +165,11 @@ const CardsSection = ({
 
           {/* Elegant divider */}
           <div className="flex items-center justify-center gap-4 mb-12">
-            <div className="w-16 h-px bg-gradient-to-r from-transparent to-slate-500"></div>
-            <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
-            <div className="w-32 h-px bg-gradient-to-r from-slate-500 to-slate-500"></div>
-            <div className="w-2 h-2 bg-slate-400 rounded-full"></div>
-            <div className="w-16 h-px bg-gradient-to-l from-transparent to-slate-500"></div>
+            <div className="w-16 h-px bg-gradient-to-r from-transparent to-slate-500/50"></div>
+            <div className="w-2 h-2 bg-slate-400/60 rounded-full"></div>
+            <div className="w-32 h-px bg-gradient-to-r from-slate-500/50 to-slate-500/50"></div>
+            <div className="w-2 h-2 bg-slate-400/60 rounded-full"></div>
+            <div className="w-16 h-px bg-gradient-to-l from-transparent to-slate-500/50"></div>
           </div>
         </div>
 
@@ -189,18 +182,18 @@ const CardsSection = ({
                 onClick={() => filterMembers(filter.key)}
                 className={`
                   px-6 py-3 rounded-xl font-light tracking-wide transition-all duration-300
-                  backdrop-blur-sm border border-slate-500/30
+                  backdrop-blur-sm border
                   flex items-center gap-2 text-sm
                   ${
                     activeFilter === filter.key
-                      ? "bg-slate-800/50 text-slate-200 border-slate-400/50 shadow-lg shadow-slate-500/20"
-                      : "bg-slate-900/30 text-slate-400 hover:bg-slate-800/30 hover:text-slate-300 hover:border-slate-400/40"
+                      ? "bg-slate-800/40 text-slate-200 border-slate-400/40 shadow-lg shadow-slate-500/10"
+                      : "bg-slate-900/20 text-slate-400 border-slate-500/20 hover:bg-slate-800/20 hover:text-slate-300 hover:border-slate-400/30"
                   }
                 `}
               >
                 <span>{filter.icon}</span>
                 <span>{filter.label}</span>
-                <span className="ml-1 text-xs bg-slate-700/50 px-2 py-1 rounded-full">
+                <span className="ml-1 text-xs bg-slate-700/40 px-2 py-1 rounded-full">
                   {filter.key === "all"
                     ? displayMembers.length
                     : filter.key === "hod"
@@ -230,7 +223,11 @@ const CardsSection = ({
             >
               <TeamCard
                 {...member}
-                Role={(!member.isMember || member.yearOfLeaving) ? "Alumni" : member.Role}
+                Role={
+                  !member.isMember || member.yearOfLeaving
+                    ? "Alumni"
+                    : member.Role
+                }
                 size="medium"
                 onClick={() => console.log("Clicked member:", member.name)}
               />
@@ -252,8 +249,8 @@ const CardsSection = ({
 
         {/* Section Footer */}
         <div className="text-center mt-20">
-          <div className="inline-flex items-center gap-3 px-8 py-4 bg-slate-900/30 backdrop-blur-sm border border-slate-500/20 rounded-xl">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-gentle-pulse"></div>
+          <div className="inline-flex items-center gap-3 px-8 py-4 bg-slate-900/20 backdrop-blur-sm border border-slate-500/15 rounded-xl">
+            <div className="w-2 h-2 bg-emerald-400/80 rounded-full animate-gentle-pulse"></div>
             <span className="text-slate-300 text-sm font-light tracking-wide">
               Showing {filteredMembers.length} of {displayMembers.length}{" "}
               members

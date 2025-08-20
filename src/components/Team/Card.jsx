@@ -103,7 +103,6 @@ const TeamCard = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
-      {...props}
     >
       {/* Image Section - Takes up ~60% of card with padding */}
       <div className={`relative ${currentSize.imageContainer} flex flex-col`}>
@@ -146,7 +145,6 @@ const TeamCard = ({
         >
           {name}
         </h3>
-       
 
         {/* Department */}
         <p
