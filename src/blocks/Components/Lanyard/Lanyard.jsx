@@ -22,10 +22,8 @@ import {
 } from "@react-three/rapier";
 import { MeshLineGeometry, MeshLineMaterial } from "meshline";
 
-// replace with your own imports, see the usage snippet for details
 import cardGLB from "./card.glb";
 import lanyard from "./lanyard.png";
-
 import * as THREE from "three";
 
 extend({ MeshLineGeometry, MeshLineMaterial });
@@ -36,6 +34,20 @@ export default function Lanyard({
   fov = 20,
   transparent = true,
 }) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <div className="relative z-0 w-full h-screen flex justify-center items-center">
+        <div className="text-gray-400">Loading 3D Scene...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative z-0 w-full h-screen flex justify-center items-center transform scale-100 origin-center">
       <Canvas
@@ -83,6 +95,7 @@ export default function Lanyard({
     </div>
   );
 }
+
 function Band({ maxSpeed = 50, minSpeed = 0 }) {
   const band = useRef(),
     fixed = useRef(),
@@ -110,13 +123,11 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
         new THREE.Vector3(),
         new THREE.Vector3(),
         new THREE.Vector3(),
-      ]),
+      ])
   );
   const [dragged, drag] = useState(false);
   const [hovered, hover] = useState(false);
-  const [isSmall, setIsSmall] = useState(
-    () => typeof window !== "undefined" && window.innerWidth < 1024,
-  );
+  const [isSmall, setIsSmall] = useState(false);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
@@ -138,6 +149,8 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
       setIsSmall(window.innerWidth < 1024);
     };
 
+    // Set initial value after mount
+    setIsSmall(window.innerWidth < 1024);
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
@@ -159,15 +172,15 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
       [j1, j2].forEach((ref) => {
         if (!ref.current.lerped)
           ref.current.lerped = new THREE.Vector3().copy(
-            ref.current.translation(),
+            ref.current.translation()
           );
         const clampedDistance = Math.max(
           0.1,
-          Math.min(1, ref.current.lerped.distanceTo(ref.current.translation())),
+          Math.min(1, ref.current.lerped.distanceTo(ref.current.translation()))
         );
         ref.current.lerped.lerp(
           ref.current.translation(),
-          delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)),
+          delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
         );
       });
       curve.points[0].copy(j3.current.translation());
@@ -210,15 +223,14 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
             onPointerUp={(e) => (
-              e.target.releasePointerCapture(e.pointerId),
-              drag(false)
+              e.target.releasePointerCapture(e.pointerId), drag(false)
             )}
             onPointerDown={(e) => (
               e.target.setPointerCapture(e.pointerId),
               drag(
                 new THREE.Vector3()
                   .copy(e.point)
-                  .sub(vec.copy(card.current.translation())),
+                  .sub(vec.copy(card.current.translation()))
               )
             )}
           >

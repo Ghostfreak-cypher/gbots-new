@@ -1,9 +1,15 @@
-import React from 'react'
-
+"use client";
+import React from "react";
+import TeamHero from "@/components/team/hero";
+import CardsSection from "@/components/Team/CardsSection";
 function Team() {
   return (
-    <div>Team</div>
-  )
+    <div className="Team relative w-full min-h-screen">
+      <TeamHero />
+      <CardsSection />
+    </div>
+  );
 }
 
-export default Team
+export default Team;
+

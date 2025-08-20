@@ -38,6 +38,7 @@ const TextPressure = ({
   const [fontSize, setFontSize] = useState(minFontSize);
   const [scaleY, setScaleY] = useState(1);
   const [lineHeight, setLineHeight] = useState(1);
+  const [isMounted, setIsMounted] = useState(false);
 
   const chars = text.split("");
 
@@ -46,6 +47,10 @@ const TextPressure = ({
     const dy = b.y - a.y;
     return Math.sqrt(dx * dx + dy * dy);
   };
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleMouseMove = (e) => {
@@ -74,7 +79,7 @@ const TextPressure = ({
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, []);
+  }, [isMounted]);
 
   const setSize = () => {
     if (!containerRef.current || !titleRef.current) return;
@@ -102,13 +107,17 @@ const TextPressure = ({
   };
 
   useEffect(() => {
+    if (!isMounted) return;
+
     setSize();
     window.addEventListener("resize", setSize);
     return () => window.removeEventListener("resize", setSize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scale, text]);
+  }, [scale, text, isMounted]);
 
   useEffect(() => {
+    if (!isMounted) return;
+
     let rafId;
     const animate = () => {
       mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
@@ -149,7 +158,30 @@ const TextPressure = ({
 
     animate();
     return () => cancelAnimationFrame(rafId);
-  }, [width, weight, italic, alpha, chars.length]);
+  }, [width, weight, italic, alpha, chars.length, isMounted]);
+
+  // Show simple fallback during SSR
+  if (!isMounted) {
+    return (
+      <div className="relative w-full h-full overflow-hidden bg-transparent">
+        <h1
+          className={`${className} ${
+            flex ? "flex justify-between" : ""
+          } uppercase text-center`}
+          style={{
+            fontFamily: "Arial, sans-serif",
+            fontSize: minFontSize,
+            lineHeight: 1,
+            margin: 0,
+            fontWeight: 100,
+            color: textColor,
+          }}
+        >
+          {text}
+        </h1>
+      </div>
+    );
+  }
 
   return (
     <div

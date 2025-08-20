@@ -9,10 +9,10 @@ function About() {
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Left side - Text content */}
           <div className="flex flex-col gap-6 lg:w-1/2">
-            <h1 className="text-[10vw] sm:text-[8vw] md:text-[6vw] lg:text-[5vw] font-bold leading-tight">
+            <h1 className="text-[10vw] sm:text-[8vw] md:text-[6vw] lg:text-[5vw] font-bold leading-tight self-start">
               About Us
             </h1>
-            <div className="mt-2 max-w-4xl ml-0 sm:ml-8 md:ml-12 lg:ml-0">
+            <div className="mt-2 max-w-4xl">
               <p className="text-[3.5vw] sm:text-[2.5vw] md:text-[2vw] lg:text-[1.2vw] tracking-tight leading-relaxed">
                 <ScrollReveal
                   baseOpacity={0.1}
@@ -40,28 +40,74 @@ function About() {
               delay={4000}
               pauseOnHover={true}
               width={600}
-              height={500}
+              height={450}
             >
-              <Card className="bg-gradient-to-br from-gray-800 to-zinc-950 text-white p-6 flex flex-col justify-center">
-                <h3 className="text-2xl font-bold mb-4">Innovation</h3>
-                <p className="text-lg leading-relaxed">
-                  Pioneering breakthrough technologies that reshape how we
-                  interact with machines and automation.
-                </p>
+              <Card className="bg-gradient-to-br from-gray-800 to-zinc-950 text-white p-6 flex flex-col justify-between items-start">
+                <div>
+                  <h3 className="text-2xl font-bold mb-4 self-start">
+                    Innovation
+                  </h3>
+                  <p className="text-lg leading-relaxed text-left">
+                    Pioneering breakthrough technologies that reshape how we
+                    interact with machines and automation.
+                  </p>
+                </div>
+                <div className="w-full flex justify-center mt-4 flex-1">
+                  <div className="w-full h-[280px] bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden min-h-[80px]">
+                    {/* Add your image here */}
+                    <img
+                      className="w-full h-full object-contain"
+                      src="./Grobotslogo.png"
+                      alt="Grobots Logo"
+                    />
+                    {/* <span className="text-xs text-gray-400">IMG</span> */}
+                  </div>
+                </div>
               </Card>
-              <Card className="bg-gradient-to-br from-slate-800 to-gray-950 text-white p-6 flex flex-col justify-center">
-                <h3 className="text-2xl font-bold mb-4">Design</h3>
-                <p className="text-lg leading-relaxed">
-                  Creating intuitive and elegant robotic solutions that
-                  seamlessly integrate into daily life.
-                </p>
+              <Card className="bg-gradient-to-br from-slate-800 to-gray-950 text-white p-6 flex flex-col justify-between items-start">
+                <div>
+                  <h3 className="text-2xl font-bold mb-4 self-start">Design</h3>
+                  <p className="text-lg leading-relaxed text-left">
+                    Creating intuitive and elegant robotic solutions that
+                    seamlessly integrate into daily life.
+                  </p>
+                </div>
+                <div className="w-full flex justify-center mt-4 flex-1">
+                  <div className="w-full h-[280px] bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden min-h-[80px]">
+                    {/* Add your image here */}
+                    <span className="text-xs text-gray-400">IMG</span>
+                  </div>
+                </div>
               </Card>
-              <Card className="bg-gradient-to-br from-zinc-800 to-slate-950 text-white p-6 flex flex-col justify-center">
-                <h3 className="text-2xl font-bold mb-4">Future</h3>
-                <p className="text-lg leading-relaxed">
-                  Building tomorrow's technology today with sustainable and
-                  scalable robotic ecosystems.
-                </p>
+              <Card className="bg-gradient-to-br from-zinc-800 to-slate-950 text-white p-6 flex flex-col justify-between items-start">
+                <div>
+                  <h3 className="text-2xl font-bold mb-4 self-start">Future</h3>
+                  <p className="text-lg leading-relaxed text-left">
+                    Building tomorrow's technology today with sustainable and
+                    scalable robotic ecosystems.
+                  </p>
+                </div>
+                <div className="w-full flex justify-center mt-4 flex-1">
+                  <div className="w-full h-[280px] bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden min-h-[80px]">
+                    {/* Add your image here */}
+                    <span className="text-xs text-gray-400">IMG</span>
+                  </div>
+                </div>
+              </Card>
+              <Card className="bg-gradient-to-br from-zinc-800 to-slate-950 text-white p-6 flex flex-col justify-between items-start">
+                <div>
+                  <h3 className="text-2xl font-bold mb-4 self-start">Future</h3>
+                  <p className="text-lg leading-relaxed text-left">
+                    Building tomorrow's technology today with sustainable and
+                    scalable robotic ecosystems.
+                  </p>
+                </div>
+                <div className="w-full flex justify-center mt-4 flex-1">
+                  <div className="w-full h-[280px] bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden min-h-[80px]">
+                    {/* Add your image here */}
+                    <span className="text-xs text-gray-400">IMG</span>
+                  </div>
+                </div>
               </Card>
             </CardSwap>
           </div>

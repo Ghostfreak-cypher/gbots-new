@@ -9,6 +9,7 @@ function Hero() {
         <Spline
           scene="https://prod.spline.design/gU-KjpRSvoZxGltT/scene.splinecode"
           style={{ width: "100%", height: "100%" }}
+          
         />
       </div>
       <div className="absolute inset-0 z-10 flex items-center justify-between pointer-events-none px-1 md:px-2 lg:px-4">
