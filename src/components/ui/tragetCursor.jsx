@@ -132,7 +132,6 @@ const TargetCursor = ({
     window.addEventListener("mousedown", mouseDownHandler);
     window.addEventListener("mouseup", mouseUpHandler);
 
-    //----------------------------------------------------------------
     const enterHandler = (e) => {
       const directTarget = e.target;
 

@@ -1,230 +1,331 @@
-"use client";
+import React from 'react';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { 
+  ArrowLeft, 
+  Calendar, 
+  Users, 
+  Award, 
+  Cpu, 
+  Zap, 
+  Target,
+  CheckCircle,
+  ExternalLink,
+  Github
+} from 'lucide-react';
+import { projectsData } from '@/data/projects/projectsData';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Share2, Twitter, Linkedin, Link as LinkIcon, ArrowLeft, ArrowRight, Home } from 'lucide-react'
-import { projectsAPI, apiUtils } from '@/lib/apiService'
+export async function generateStaticParams() {
+  return projectsData.projects.map((project) => ({
+    slug: project.slug,
+  }));
+}
 
-const ProgressBar = () => {
-  const [progress, setProgress] = useState(0);
-  useEffect(() => {
-    const onScroll = () => {
-      const doc = document.documentElement;
-      const scrollTop = window.scrollY;
-      const max = doc.scrollHeight - window.innerHeight;
-      setProgress(max > 0 ? (scrollTop / max) * 100 : 0);
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const project = projectsData.projects.find((p) => p.slug === slug);
+  
+  if (!project) {
+    return {
+      title: 'Project Not Found - Grobots',
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-  return (
-    <div className="fixed top-0 left-0 w-full h-1 z-[60] bg-black/20">
-      <div className="h-full bg-[#429da1] transition-[width] duration-150" style={{ width: `${progress}%` }} />
-    </div>
-  );
-};
+  }
 
-const Header = ({ title, subtitle, cover }) => (
-  <header className="reader-header">
-    <div className="reader-container py-6 md:py-8">
-      <nav className="text-sm text-themed-muted flex items-center gap-2">
-        <Home size={16} />
-        <span>/</span>
-        <a href="/projects" className="hover:underline">Projects</a>
-        <span>/</span>
-        <span className="text-foreground/80">{title}</span>
-      </nav>
-      <h1 className="mt-3 text-3xl md:text-5xl font-bold leading-tight">{title}</h1>
-      {subtitle && <p className="mt-3 text-lg text-themed-muted">{subtitle}</p>}
-    </div>
-    {cover && (
-      <div className="w-full relative">
-        <img src={cover} alt={title} className="w-full max-h-[60vh] object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-      </div>
-    )}
-  </header>
-);
+  return {
+    title: `${project.name} - Projects - Grobots`,
+    description: project.description,
+  };
+}
 
-const MetaBar = ({ tags = [], date, readTime }) => (
-  <div className="reader-container py-4 text-sm text-themed-muted flex flex-wrap items-center gap-3">
-    {date && <span>{date}</span>}
-    {readTime && <span>• {readTime}</span>}
-    {tags.length > 0 && (
-      <div className="flex flex-wrap gap-2">
-        {tags.map((t) => (
-          <span key={t} className="px-2 py-1 rounded-full border border-themed text-xs">{t}</span>
-        ))}
-      </div>
-    )}
-  </div>
-);
+export default async function ProjectDetailPage({ params }) {
+  const { slug } = await params;
+  const project = projectsData.projects.find((p) => p.slug === slug);
 
-const Content = ({ children }) => {
-  const articleRef = useRef(null);
-  const [toc, setToc] = useState([]);
-  const [activeId, setActiveId] = useState('');
+  if (!project) {
+    notFound();
+  }
 
-  useEffect(() => {
-    if (!articleRef.current) return;
-    const headings = Array.from(articleRef.current.querySelectorAll('h2, h3'));
-    const entries = headings.map((el) => {
-      const id = el.textContent.toLowerCase().replace(/[^a-z0-9\s]/g, '').trim().replace(/\s+/g, '-');
-      el.id = id;
-      return { id, text: el.textContent, level: el.tagName.toLowerCase() };
-    });
-    setToc(entries);
-  }, [children]);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const offsets = toc.map((t) => {
-        const el = document.getElementById(t.id);
-        if (!el) return { id: t.id, top: Infinity };
-        const rect = el.getBoundingClientRect();
-        return { id: t.id, top: Math.abs(rect.top - 100) };
-      });
-      offsets.sort((a, b) => a.top - b.top);
-      if (offsets.length) setActiveId(offsets[0].id);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [toc]);
-
-  const share = (platform) => {
-    const url = typeof window !== 'undefined' ? window.location.href : '';
-    const text = document.title;
-    const map = {
-      twitter: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`,
-      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
-    };
-    const link = map[platform];
-    if (link) window.open(link, '_blank', 'noopener,noreferrer');
+  const getCategoryIcon = (category) => {
+    switch (category.toLowerCase()) {
+      case 'autonomous systems':
+        return Cpu;
+      case 'combat robotics':
+        return Zap;
+      case 'research platform':
+        return Award;
+      default:
+        return Cpu;
+    }
   };
 
-  const copyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      // Optional: toast
-    } catch {}
+  const getStatusColor = (status) => {
+    if (!status) return 'bg-primary/10 text-primary border-primary/20'; // Default for undefined status
+    
+    switch (status.toLowerCase()) {
+      case 'active':
+        return 'bg-green-500/10 text-green-600 border-green-500/20';
+      case 'completed':
+        return 'bg-blue-500/10 text-blue-600 border-blue-500/20';
+      case 'archived':
+        return 'bg-gray-500/10 text-gray-600 border-gray-500/20';
+      default:
+        return 'bg-primary/10 text-primary border-primary/20';
+    }
   };
 
+  const CategoryIcon = getCategoryIcon(project.category);
+
   return (
-    <main className="reader-main">
-      <div className="reader-container reader-grid py-10">
-        <article ref={articleRef} className="reader-content p-6 md:p-10 prose prose-invert">
-          {children}
+    <div className="min-h-screen bg-background py-20 ml-20">
+      <div className="max-w-7xl font-mono mx-auto px-6">
+        
+        {/* Back Button */}
+        <div className="mb-6">
+          <Link 
+            href="/projects"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Projects</span>
+          </Link>
+        </div>
 
-          <hr className="my-10 border-themed" />
-          <div className="flex items-center justify-between flex-wrap gap-3">
-            <div className="flex items-center gap-3 text-sm text-themed-muted">
-              <span>Share</span>
-              <button aria-label="Share on Twitter" className="p-2 rounded-lg bg-themed-card border-themed border hover:opacity-90" onClick={() => share('twitter')}><Twitter size={16} /></button>
-              <button aria-label="Share on LinkedIn" className="p-2 rounded-lg bg-themed-card border-themed border hover:opacity-90" onClick={() => share('linkedin')}><Linkedin size={16} /></button>
-              <button aria-label="Copy link" className="p-2 rounded-lg bg-themed-card border-themed border hover:opacity-90" onClick={copyLink}><LinkIcon size={16} /></button>
+        {/* Main Content Card */}
+        <div className="bg-card rounded-3xl overflow-hidden shadow-lg">
+          
+          {/* Header Section */}
+          <div className="p-8 border-b border-border">
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center">
+                  <CategoryIcon className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+                    {project.name}
+                  </h1>
+                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                    <span className="bg-secondary/50 px-2 py-1 rounded">
+                      {project.category}
+                    </span>
+                    <span className={`px-2 py-1 font-medium rounded-full border ${getStatusColor(project.status)}`}>
+                      {project.status || 'Active'}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-3">
-              <a href="/projects" className="btn-secondary px-3 py-2 rounded-xl flex items-center gap-2"><ArrowLeft size={16} />All Projects</a>
-            </div>
-          </div>
 
-          <div className="mt-10 bg-themed-card border-themed border rounded-2xl p-5">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-gray-700" />
-              <div>
-                <p className="font-semibold">Grobots Team</p>
-                <p className="text-sm text-themed-muted">Building robotics products and tools.</p>
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              {project.description}
+            </p>
+
+            {/* Project Meta */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl">
+              <div className="flex items-center gap-2 text-sm">
+                <Calendar className="w-4 h-4 text-muted-foreground" />
+                <span className="text-foreground font-medium">{project.year}</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Users className="w-4 h-4 text-muted-foreground" />
+                <span className="text-foreground font-medium">{project.team_size || "6"} members</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Target className="w-4 h-4 text-muted-foreground" />
+                <span className="text-foreground font-medium">{project.development_time || "12 months"}</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Award className="w-4 h-4 text-muted-foreground" />
+                <span className="text-foreground font-medium">{project.achievements ? project.achievements.length : 0} awards</span>
               </div>
             </div>
           </div>
 
-          <div className="mt-8 flex justify-between items-center">
-            <a className="btn-outline px-3 py-2 rounded-xl flex items-center gap-2" href="#"><ArrowLeft size={16} /> Previous</a>
-            <a className="btn-primary px-3 py-2 rounded-xl flex items-center gap-2" href="#">Next <ArrowRight size={16} /></a>
-          </div>
-        </article>
-        <aside className="reader-sidebar hidden lg:block">
-          <div className="bg-themed-card border-themed border rounded-2xl p-4 sticky top-24">
-            <h3 className="font-semibold mb-2">On this page</h3>
-            {toc.length === 0 ? (
-              <p className="text-sm text-themed-muted">Headings will appear here if added.</p>
-            ) : (
-              <nav className="text-sm">
-                <ul className="space-y-1">
-                  {toc.map((t) => (
-                    <li key={t.id}>
-                      <a href={`#${t.id}`} className={`${activeId === t.id ? 'text-foreground' : 'text-themed-muted'} hover:text-foreground transition-colors`} style={{ paddingLeft: t.level === 'h3' ? 12 : 0 }}>
-                        {t.text}
-                      </a>
-                    </li>
+          {/* Main Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-8">
+            
+            {/* Left Column - Main Content */}
+            <div className="lg:col-span-2 space-y-8">
+              
+              {/* Overview */}
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">Overview</h2>
+                <div className="prose prose-neutral dark:prose-invert max-w-none">
+                  {(project.overview || project.description || "").split('\n\n').map((paragraph, index) => (
+                    <p key={index} className="text-muted-foreground leading-relaxed mb-4">
+                      {paragraph}
+                    </p>
                   ))}
-                </ul>
-              </nav>
-            )}
+                </div>
+              </div>
+
+              {/* Development Story */}
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground mb-4">Development Story</h2>
+                <div className="prose prose-neutral dark:prose-invert max-w-none">
+                  {project.development_story ? (
+                    project.development_story.split('\n\n').map((paragraph, index) => (
+                      <p key={index} className="text-muted-foreground leading-relaxed mb-4">
+                        {paragraph}
+                      </p>
+                    ))
+                  ) : project.developmentStory ? (
+                    <div className="space-y-4">
+                      {Object.entries(project.developmentStory).map(([key, value]) => (
+                        <div key={key}>
+                          <h3 className="text-lg font-semibold text-foreground mb-2 capitalize">
+                            {key.replace(/([A-Z])/g, ' $1').trim()}
+                          </h3>
+                          <p className="text-muted-foreground leading-relaxed">{value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground leading-relaxed">
+                      {project.shortDescription || "Development details for this project are currently being documented."}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Awards & Recognition */}
+              {project.achievements && project.achievements.length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-semibold text-foreground mb-4">Awards & Recognition</h2>
+                  <div className="space-y-4">
+                    {project.achievements.map((award, index) => (
+                      <div key={index} className="bg-secondary/30 rounded-xl p-4 border border-border">
+                        <div className="flex items-start gap-3">
+                          <Award className="w-5 h-5 text-primary mt-1 flex-shrink-0" />
+                          <div>
+                            <h3 className="font-semibold text-foreground">{award.competition}</h3>
+                            <p className="text-sm text-primary font-medium">{award.placement}</p>
+                            <p className="text-xs text-muted-foreground">{award.year} • {award.location}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Right Column - Sidebar */}
+            <div className="space-y-8">
+              
+              {/* Key Features */}
+              <div className="bg-secondary/30 rounded-2xl p-6 border border-border">
+                <h3 className="text-lg font-semibold text-foreground mb-4">Key Features</h3>
+                <div className="space-y-2">
+                  {project.key_features ? (
+                    project.key_features.map((feature, index) => (
+                      <div key={index} className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-sm text-muted-foreground">{feature}</span>
+                      </div>
+                    ))
+                  ) : (
+                    <>
+                      <div className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-sm text-muted-foreground">{project.category}</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-sm text-muted-foreground">{project.weightClass}</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                        <span className="text-sm text-muted-foreground">{project.shortDescription}</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Technical Specifications */}
+              <div className="bg-secondary/30 rounded-2xl p-6 border border-border">
+                <h3 className="text-lg font-semibold text-foreground mb-4">Technical Specifications</h3>
+                <div className="space-y-4">
+                  {Object.entries(project.specifications).map(([key, value]) => (
+                    <div key={key} className="space-y-2">
+                      <h4 className="text-sm font-semibold text-foreground capitalize">
+                        {key.replace(/_/g, ' ')}
+                      </h4>
+                      {typeof value === 'object' && value !== null ? (
+                        <div className="ml-4 space-y-1">
+                          {Object.entries(value).map(([subKey, subValue]) => (
+                            <div key={subKey} className="flex justify-between items-start gap-2">
+                              <span className="text-xs text-muted-foreground capitalize">
+                                {subKey.replace(/_/g, ' ')}:
+                              </span>
+                              <span className="text-xs text-foreground font-medium text-right">
+                                {subValue}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="ml-4">
+                          <span className="text-sm text-foreground font-medium">
+                            {value}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Technologies Used */}
+              <div className="bg-secondary/30 rounded-2xl p-6 border border-border">
+                <h3 className="text-lg font-semibold text-foreground mb-4">Technologies Used</h3>
+                <div className="flex flex-wrap gap-2">
+                  {project.technologies ? (
+                    project.technologies.map((tech, index) => (
+                      <span 
+                        key={index}
+                        className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full border border-primary/20"
+                      >
+                        {tech}
+                      </span>
+                    ))
+                  ) : (
+                    <>
+                      <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full border border-primary/20">
+                        {project.category}
+                      </span>
+                      <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full border border-primary/20">
+                        Robotics
+                      </span>
+                      <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full border border-primary/20">
+                        Engineering
+                      </span>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Project Links */}
+              <div className="bg-secondary/30 rounded-2xl p-6 border border-border">
+                <h3 className="text-lg font-semibold text-foreground mb-4">Project Links</h3>
+                <div className="space-y-2">
+                  <button className="w-full flex items-center gap-2 p-2 bg-secondary/50 hover:bg-secondary rounded-lg transition-colors">
+                    <Github className="w-4 h-4" />
+                    <span className="text-sm">View Source Code</span>
+                    <ExternalLink className="w-3 h-3 ml-auto" />
+                  </button>
+                  <button className="w-full flex items-center gap-2 p-2 bg-secondary/50 hover:bg-secondary rounded-lg transition-colors">
+                    <ExternalLink className="w-4 h-4" />
+                    <span className="text-sm">Project Documentation</span>
+                    <ExternalLink className="w-3 h-3 ml-auto" />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </aside>
+        </div>
       </div>
-    </main>
-  );
-};
-
-function ProjectDoc({ params }) {
-  const { slug } = params;
-
-  const [project, setProject] = useState(null);
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let isMounted = true;
-    setLoading(true);
-    projectsAPI
-      .getBySlug(slug)
-      .then((res) => {
-        if (!isMounted) return;
-        const p = res?.project || res?.data?.project || null;
-        setProject(p);
-      })
-      .catch((err) => setError(apiUtils.handleError(err)))
-      .finally(() => isMounted && setLoading(false));
-    return () => {
-      isMounted = false;
-    };
-  }, [slug]);
-
-  const title = project?.name || project?.title || "Project";
-  const subtitle = project?.shortDescription || project?.description || "";
-  const cover = project?.image || project?.poster || project?.cover || null;
-  const tags = Array.isArray(project?.tags) ? project.tags : [];
-
-  return (
-    <div className='relative min-h-screen pt-20'>
-      <ProgressBar />
-      <Header title={title} subtitle={subtitle} cover={cover} />
-      <MetaBar tags={tags} date={project?.year ? String(project.year) : undefined} readTime={undefined} />
-      <Content>
-        {error && (
-          <p className="text-sm text-red-400">{error}</p>
-        )}
-        {loading && (
-          <p className="text-sm text-themed-muted">Loading…</p>
-        )}
-        {!loading && !error && (
-          <>
-            <h2>Overview</h2>
-            <p>{subtitle}</p>
-            {project?.description && (
-              <>
-                <h3>Details</h3>
-                <p>{project.description}</p>
-              </>
-            )}
-          </>
-        )}
-      </Content>
     </div>
-  )
+  );
 }
-
-export default ProjectDoc

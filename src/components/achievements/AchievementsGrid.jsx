@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { achievementsAPI, apiUtils } from "@/lib/apiService";
+import EventCard from "@/components/ui/card";
 
 const AchievementsGrid = ({ filters }) => {
   const [items, setItems] = useState([]);
@@ -58,17 +59,7 @@ const AchievementsGrid = ({ filters }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
       {cards.map((c, i) => (
-        <article key={i} className="card-base card-hover border border-themed rounded-2xl overflow-hidden">
-          {c.image && (
-            <div className="relative aspect-[16/9] overflow-hidden">
-              <img src={c.image} alt={c.title} className="w-full h-full object-cover" />
-            </div>
-          )}
-          <div className="p-5">
-            <h3 className="text-xl font-semibold">{c.title}</h3>
-            <p className="mt-2 text-sm text-themed-muted">{c.description}</p>
-          </div>
-        </article>
+        <EventCard key={i} title={c.title} description={c.description} image={c.image} />
       ))}
     </div>
   );

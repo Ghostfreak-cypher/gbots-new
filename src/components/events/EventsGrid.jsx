@@ -1,7 +1,8 @@
+// EventsGrid.js
 "use client";
-
 import React, { useEffect, useMemo, useState } from "react";
 import { eventsAPI, apiUtils } from "@/lib/apiService";
+import EventCard from '../ui/card';
 
 const EventsGrid = ({ filters }) => {
   const [items, setItems] = useState([]);
@@ -58,24 +59,10 @@ const EventsGrid = ({ filters }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
       {cards.map((c) => (
-        <article key={c.id} className="card-base card-hover border border-themed rounded-2xl overflow-hidden">
-          {c.image && (
-            <div className="relative aspect-[16/9] overflow-hidden">
-              <img src={c.image} alt={c.title} className="w-full h-full object-cover" />
-              <div className="absolute top-3 left-3 px-2 py-1 rounded bg-black/60 text-xs">{c.status}</div>
-            </div>
-          )}
-          <div className="p-5">
-            <h3 className="text-xl font-semibold">{c.title}</h3>
-            <p className="mt-1 text-sm text-themed-muted">{c.date} • {c.location}</p>
-            <p className="mt-2 text-sm text-themed-muted">{c.description}</p>
-          </div>
-        </article>
+        <EventCard key={c.id} {...c} cursorTarget={true} />
       ))}
     </div>
   );
 };
 
 export default EventsGrid;
-
-

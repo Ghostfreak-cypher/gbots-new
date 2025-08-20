@@ -174,6 +174,7 @@ export const teamAPI = {
       if (filters.role) params.append('role', filters.role);
       if (filters.department) params.append('department', filters.department);
       if (filters.year) params.append('year', filters.year);
+      if (filters.leavingYear) params.append('leavingYear', filters.leavingYear);
       if (filters.activity !== undefined) params.append('activity', filters.activity);
       
       const response = await apiClient.get(`/TeamMembers/read?${params}`);

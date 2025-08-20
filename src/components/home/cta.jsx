@@ -10,8 +10,8 @@ function Cta() {
             Supercharge your workflow with our AI tools. Start in seconds.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-6">
-            <a href="#get-started" className="btn-primary px-6 py-3 rounded-xl w-full sm:w-auto" onFocus={(e)=>e.currentTarget.classList.add('ring-2','ring-primary','ring-offset-2','ring-offset-black')} onBlur={(e)=>e.currentTarget.classList.remove('ring-2','ring-primary','ring-offset-2','ring-offset-black')}>Get Started</a>
-            <a href="#learn-more" className="btn-secondary px-6 py-3 rounded-xl w-full sm:w-auto" onFocus={(e)=>e.currentTarget.classList.add('ring-2','ring-primary','ring-offset-2','ring-offset-black')} onBlur={(e)=>e.currentTarget.classList.remove('ring-2','ring-primary','ring-offset-2','ring-offset-black')}>Learn More</a>
+            <a href="#get-started" className="btn-primary cursor-target px-6 py-3 rounded-xl w-full sm:w-auto" onFocus={(e)=>e.currentTarget.classList.add('ring-2','ring-primary','ring-offset-2','ring-offset-black')} onBlur={(e)=>e.currentTarget.classList.remove('ring-2','ring-primary','ring-offset-2','ring-offset-black')}>Get Started</a>
+            <a href="#learn-more" className="btn-secondary px-6 py-3 cursor-target rounded-xl w-full sm:w-auto" onFocus={(e)=>e.currentTarget.classList.add('ring-2','ring-primary','ring-offset-2','ring-offset-black')} onBlur={(e)=>e.currentTarget.classList.remove('ring-2','ring-primary','ring-offset-2','ring-offset-black')}>Learn More</a>
           </div>
         </div>
       </div>

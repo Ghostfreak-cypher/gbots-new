@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from "react";
-import ProfileCard from "@/components/ui/profileCard";
+import TeamMemberCard from "@/components/team/TeamMemberCard";
 import { teamAPI, apiUtils } from "@/lib/apiService";
 
 const TeamGrid = ({ filters }) => {
@@ -71,6 +71,11 @@ const TeamGrid = ({ filters }) => {
         miniAvatarUrl: avatar,
         status,
         email,
+        department: m.department,
+        branch: m.branch,
+        course: m.course,
+        yearOfLeaving: m.yearOfLeaving,
+        Role: m.Role,
       };
     });
   }, [members]);
@@ -83,35 +88,18 @@ const TeamGrid = ({ filters }) => {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-[320px] rounded-2xl border border-gray-800 bg-gray-900/40 animate-pulse" />
+          <div key={i} className="h-[380px] rounded-3xl border border-gray-800 bg-gray-900/40 animate-pulse" />
         ))}
       </div>
     );
   }
 
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
       {normalizedMembers.map((m) => (
-        <ProfileCard
-          key={m.key}
-          name={m.name}
-          title={m.title}
-          handle={m.handle}
-          status={m.status}
-          avatarUrl={m.avatarUrl}
-          miniAvatarUrl={m.miniAvatarUrl}
-          enableTilt={isDesktop}
-          enableMobileTilt={false}
-          showUserInfo={true}
-          contactText={m.email ? "Contact" : "Say Hi"}
-          onContactClick={() => {
-            if (m.email) {
-              window.location.href = `mailto:${m.email}`;
-            }
-          }}
-        />
+        <TeamMemberCard key={m.key} member={m} />
       ))}
     </section>
   );

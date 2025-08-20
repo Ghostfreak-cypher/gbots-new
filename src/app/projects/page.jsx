@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useMemo, useState } from 'react'
-import ProjectCard from "@/components/projects/card"
 import ProjectsGrid from "@/components/projects/ProjectsGrid";
 
 function Projects() {

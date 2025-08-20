@@ -15,7 +15,7 @@ function About() {
                 baseOpacity={0.1}
                 enableBlur={true}
                 baseRotation={0}
-                blurStrength={8}
+                blurStrength={9}
               >
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Incidunt repellendus eveniet nobis tempora, neque voluptate suscipit officiis? Illo maiores, quisquam eos voluptates laboriosam repellat et, id iste doloremque, nisi quo in. Quibusdam animi rem excepturi consectetur unde exercitationem, voluptatum quisquam officiis et eaque error similique.
               </ScrollReveal>
