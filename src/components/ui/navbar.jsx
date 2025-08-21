@@ -19,9 +19,7 @@ import PropTypes from "prop-types";
 
 const navigationItems = [
   { name: "Home", href: "/", icon: Home },
-  { name: "Projects", href: "/projects", icon: Folder },
   { name: "Team", href: "/team", icon: Users },
-  { name: "Gantavya", href: "/event", icon: Calendar },
   { name: "Achievements", href: "/achievements", icon: Trophy },
 ];
 
@@ -71,8 +69,8 @@ export default function Navbar({ className }) {
                   href={item.href}
                   className={`text-sm lg:text-base font-medium md:transition-colors ${
                     isActive
-                      ? "text-blue-400"
-                      : "text-gray-300 md:hover:text-white"
+                      ? "text-gray-100"
+                      : "text-gray-600 md:hover:text-white"
                   }`}
                 >
                   {item.name}
@@ -86,7 +84,7 @@ export default function Navbar({ className }) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-gray-300 hover:bg-gray-800 md:transition-colors"
+              className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-800 md:transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
@@ -114,7 +112,7 @@ export default function Navbar({ className }) {
                     className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium md:transition-colors ${
                       isActive
                         ? "bg-gray-200 text-black"
-                        : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                        : "text-gray-600 hover:bg-gray-800 hover:text-white"
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >

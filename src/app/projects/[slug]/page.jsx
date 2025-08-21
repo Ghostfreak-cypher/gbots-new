@@ -122,11 +122,11 @@ const Content = ({ children }) => {
               <button aria-label="Share on Twitter" className="p-2 rounded-lg bg-themed-card border-themed border hover:opacity-90" onClick={() => share('twitter')}><Twitter size={16} /></button>
               <button aria-label="Share on LinkedIn" className="p-2 rounded-lg bg-themed-card border-themed border hover:opacity-90" onClick={() => share('linkedin')}><Linkedin size={16} /></button>
               <button aria-label="Copy link" className="p-2 rounded-lg bg-themed-card border-themed border hover:opacity-90" onClick={copyLink}><LinkIcon size={16} /></button>
-            </div>
+        </div>
             <div className="flex items-center gap-3">
               <a href="/projects" className="btn-secondary px-3 py-2 rounded-xl flex items-center gap-2"><ArrowLeft size={16} />All Projects</a>
+              </div>
             </div>
-          </div>
 
           <div className="mt-10 bg-themed-card border-themed border rounded-2xl p-5">
             <div className="flex items-center gap-4">
@@ -141,7 +141,7 @@ const Content = ({ children }) => {
           <div className="mt-8 flex justify-between items-center">
             <a className="btn-outline px-3 py-2 rounded-xl flex items-center gap-2" href="#"><ArrowLeft size={16} /> Previous</a>
             <a className="btn-primary px-3 py-2 rounded-xl flex items-center gap-2" href="#">Next <ArrowRight size={16} /></a>
-          </div>
+                </div>
         </article>
         <aside className="reader-sidebar hidden lg:block">
           <div className="bg-themed-card border-themed border rounded-2xl p-4 sticky top-24">
@@ -160,10 +160,10 @@ const Content = ({ children }) => {
                   ))}
                 </ul>
               </nav>
-            )}
-          </div>
+              )}
+            </div>
         </aside>
-      </div>
+                      </div>
     </main>
   );
 };
@@ -207,7 +207,7 @@ function ProjectDoc({ params }) {
         <h3>Tech Stack</h3>
         <p>PX4, MAVLink, ROS 2, TensorRT, OpenCV, WebRTC, TypeScript</p>
       </Content>
-    </div>
+                </div>
   )
 }
 
