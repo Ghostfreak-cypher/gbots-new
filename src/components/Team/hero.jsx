@@ -10,12 +10,12 @@ function TeamHero() {
   useEffect(() => {
     // Only generate particles after mount to avoid hydration mismatch
     setParticles(
-      Array.from({ length: 15 }, (_, i) => ({
+      Array.from({ length: 12 }, (_, i) => ({
         id: i,
         left: Math.random() * 100,
         top: Math.random() * 100,
         delay: Math.random() * 8,
-        duration: 6 + Math.random() * 6,
+        duration: 8 + Math.random() * 4,
       }))
     );
 
@@ -24,7 +24,7 @@ function TeamHero() {
     const entryTimer = setTimeout(() => {
       setGlitchActive(false);
       setPageLoaded(true);
-    }, 1200); // Glitch for 1.2 seconds on entry
+    }, 1200);
 
     return () => clearTimeout(entryTimer);
   }, []);
@@ -32,8 +32,8 @@ function TeamHero() {
   // Show elegant loading state during SSR
   if (!isMounted) {
     return (
-      <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-gray-900 to-black">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-800/20 via-transparent to-transparent"></div>
+      <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-gray-900 to-black font-sans">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-gray-900 to-black"></div>
         <div className="relative z-10 text-center px-4 sm:px-8 md:px-12 lg:px-20">
           <h1 className="text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[6vw] xl:text-[5vw] font-light leading-tight text-white mb-6 tracking-wide">
             <span className="block font-extralight">
@@ -54,13 +54,13 @@ function TeamHero() {
   }
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-gray-900 to-black">
-      {/* Elegant Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-800/20 via-transparent to-transparent"></div>
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-gray-900 to-black font-sans">
+      {/* Background Elements - Match CardsSection exactly */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-gray-900 to-black"></div>
 
-        {/* Refined grid pattern */}
-        <div className="absolute inset-0 opacity-10">
+        {/* Elegant grid pattern - exact match */}
+        <div className="absolute inset-0 opacity-3">
           <div className="elegant-grid"></div>
         </div>
 
@@ -80,24 +80,16 @@ function TeamHero() {
           ))}
         </div>
 
-        {/* Subtle light rays */}
-        <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-slate-500/20 to-transparent animate-pulse"></div>
-        <div
-          className="absolute top-0 right-1/3 w-px h-full bg-gradient-to-b from-transparent via-slate-400/15 to-transparent animate-pulse"
-          style={{ animationDelay: "2s" }}
-        ></div>
-      </div>
-
-      {/* Elegant scanning effect */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="elegant-scan-line"></div>
+        {/* Subtle light rays - exact match */}
+        <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-slate-500/5 to-transparent"></div>
+        <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-slate-400/5 to-transparent"></div>
       </div>
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-8 md:px-12 lg:px-20">
         <div className="mb-12">
           <div
-            className={`text-slate-400 text-xs tracking-[0.4em] uppercase font-light mb-8 transition-all duration-2000 ${
+            className={`text-slate-400 text-sm tracking-[0.4em] uppercase font-light mb-8 transition-all duration-2000 ${
               pageLoaded
                 ? "opacity-100 transform translate-y-0"
                 : "opacity-0 transform translate-y-4"
@@ -160,7 +152,7 @@ function TeamHero() {
           }`}
         >
           <div className="flex items-center gap-3">
-            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-gentle-pulse"></div>
+            <div className="w-2 h-2 bg-emerald-400/80 rounded-full animate-gentle-pulse"></div>
             <span className="text-xs font-light text-slate-400 tracking-wider">
               SYSTEM ACTIVE
             </span>
@@ -194,31 +186,16 @@ function TeamHero() {
       <style jsx>{`
         .elegant-grid {
           background-image: linear-gradient(
-              rgba(148, 163, 184, 0.1) 1px,
+              rgba(148, 163, 184, 0.05) 1px,
               transparent 1px
             ),
             linear-gradient(
               90deg,
-              rgba(148, 163, 184, 0.1) 1px,
+              rgba(148, 163, 184, 0.05) 1px,
               transparent 1px
             );
-          background-size: 80px 80px;
-          animation: elegant-grid-move 40s linear infinite;
-        }
-
-        .elegant-scan-line {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 1px;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(148, 163, 184, 0.3),
-            transparent
-          );
-          animation: elegant-scan 8s ease-in-out infinite;
+          background-size: 100px 100px;
+          animation: elegant-grid-move 60s linear infinite;
         }
 
         @keyframes elegant-grid-move {
@@ -226,29 +203,7 @@ function TeamHero() {
             transform: translate(0, 0);
           }
           100% {
-            transform: translate(80px, 80px);
-          }
-        }
-
-        @keyframes elegant-scan {
-          0%,
-          100% {
-            top: 0%;
-            opacity: 0;
-          }
-          25% {
-            opacity: 0.6;
-          }
-          50% {
-            top: 50%;
-            opacity: 1;
-          }
-          75% {
-            opacity: 0.6;
-          }
-          100% {
-            top: 100%;
-            opacity: 0;
+            transform: translate(100px, 100px);
           }
         }
 
@@ -349,6 +304,7 @@ function TeamHero() {
           animation: gentle-pulse 3s ease-in-out infinite;
         }
       `}</style>
+      
     </div>
   );
 }

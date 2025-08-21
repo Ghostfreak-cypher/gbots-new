@@ -137,15 +137,19 @@ const CardsSection = ({
   }
 
   return (
-    <section className={`py-20 ${className}`}>
-      {/* Background Elements - Simplified to match hero theme */}
+    <section
+      className={`py-20 bg-gradient-to-br from-slate-950 via-gray-900 to-black ${className}`}
+    >
+      {/* Background Elements - Match hero exactly */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Elegant grid pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-gray-900 to-black"></div>
+
+        {/* Elegant grid pattern - exact match */}
         <div className="absolute inset-0 opacity-3">
           <div className="elegant-grid"></div>
         </div>
 
-        {/* Subtle light rays - reduced opacity for consistency */}
+        {/* Subtle light rays - exact match */}
         <div className="absolute top-0 left-1/3 w-px h-full bg-gradient-to-b from-transparent via-slate-500/5 to-transparent"></div>
         <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-slate-400/5 to-transparent"></div>
       </div>
@@ -182,7 +186,7 @@ const CardsSection = ({
                 onClick={() => filterMembers(filter.key)}
                 className={`
                   px-6 py-3 rounded-xl font-light tracking-wide transition-all duration-300
-                  backdrop-blur-sm border
+                  backdrop-blur-sm border cursor-target
                   flex items-center gap-2 text-sm
                   ${
                     activeFilter === filter.key
@@ -229,7 +233,6 @@ const CardsSection = ({
                     : member.Role
                 }
                 size="medium"
-                onClick={() => console.log("Clicked member:", member.name)}
               />
             </div>
           ))}
