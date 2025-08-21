@@ -8,12 +8,11 @@ function About() {
       <div className="pt-14 px-4 sm:px-8 md:px-12 lg:px-20">
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Left side - Text content */}
-          <div className="flex flex-col gap-6 lg:w-1/2">
+          <div className="flex flex-col gap-6 lg:w-5/7 h-full">
             <h1 className="text-[10vw] sm:text-[8vw] md:text-[6vw] lg:text-[5vw] font-bold leading-tight self-start">
               About Us
             </h1>
-            <div className="mt-2 max-w-4xl">
-              <p className="text-[3.5vw] sm:text-[2.5vw] md:text-[2vw] lg:text-[1.2vw] tracking-tight leading-relaxed">
+            <div className="m-4 text-[1.9vw] tracking-tighter leading-relaxed ">
                 <ScrollReveal
                   baseOpacity={0.1}
                   enableBlur={true}
@@ -28,12 +27,11 @@ function About() {
                   systems to interactive companions, we're shaping the future of
                   technology one innovation at a time.
                 </ScrollReveal>
-              </p>
             </div>
           </div>
 
           {/* Right side - CardSwap component */}
-          <div className="lg:w-1/2 w-full relative" style={{ height: "500px" }}>
+          <div className="lg:w-4/7 w-full relative" style={{ height: "500px" }}>
             <CardSwap
               cardDistance={60}
               verticalDistance={70}
@@ -56,9 +54,9 @@ function About() {
                   <div className="w-full h-[280px] bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden min-h-[80px]">
                     {/* Add your image here */}
                     <img
-                      className="w-full h-full object-contain"
-                      src="./Grobotslogo.png"
-                      alt="Grobots Logo"
+                      className="w-full h-full object-cover"
+                      src="./innovation.jpg"
+                      alt="Innovation"
                     />
                     {/* <span className="text-xs text-gray-400">IMG</span> */}
                   </div>
@@ -75,7 +73,12 @@ function About() {
                 <div className="w-full flex justify-center mt-4 flex-1">
                   <div className="w-full h-[280px] bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden min-h-[80px]">
                     {/* Add your image here */}
-                    <span className="text-xs text-gray-400">IMG</span>
+                    <img
+                      className="w-full h-full object-cover"
+                      src="./innovation.jpg"
+                      alt="Innovation"
+                    />
+                    {/* <span className="text-xs text-gray-400">IMG</span> */}
                   </div>
                 </div>
               </Card>
@@ -90,7 +93,12 @@ function About() {
                 <div className="w-full flex justify-center mt-4 flex-1">
                   <div className="w-full h-[280px] bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden min-h-[80px]">
                     {/* Add your image here */}
-                    <span className="text-xs text-gray-400">IMG</span>
+                    <img
+                      className="w-full h-full object-cover"
+                      src="./innovation.jpg"
+                      alt="Innovation"
+                    />
+                    {/* <span className="text-xs text-gray-400">IMG</span> */}
                   </div>
                 </div>
               </Card>
@@ -105,7 +113,12 @@ function About() {
                 <div className="w-full flex justify-center mt-4 flex-1">
                   <div className="w-full h-[280px] bg-gray-700 rounded-lg flex items-center justify-center overflow-hidden min-h-[80px]">
                     {/* Add your image here */}
-                    <span className="text-xs text-gray-400">IMG</span>
+                    <img
+                      className="w-full h-full object-cover"
+                      src="./innovation.jpg"
+                      alt="Innovation"
+                    />
+                    {/* <span className="text-xs text-gray-400">IMG</span> */}
                   </div>
                 </div>
               </Card>
