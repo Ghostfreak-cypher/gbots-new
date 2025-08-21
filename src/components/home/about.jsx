@@ -12,11 +12,7 @@ function About() {
             <h1 className="text-[10vw] sm:text-[8vw] md:text-[6vw] lg:text-[5vw] font-bold leading-tight self-start">
               About Us
             </h1>
-<<<<<<< HEAD
             <div className="m-4 text-[1.9vw]">
-=======
-            <div className="m-4 text-[1.9vw] tracking-tighter leading-relaxed ">
->>>>>>> 9642ec56d920a7a77dd51af5d08f3ec7049470b8
                 <ScrollReveal
                   baseOpacity={0.1}
                   enableBlur={true}

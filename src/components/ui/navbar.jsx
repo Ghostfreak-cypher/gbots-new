@@ -19,10 +19,6 @@ import PropTypes from "prop-types";
 
 const navigationItems = [
   { name: "Home", href: "/", icon: Home },
-<<<<<<< HEAD
-=======
-  // { name: "Projects", href: "/projects", icon: Folder },
->>>>>>> 9642ec56d920a7a77dd51af5d08f3ec7049470b8
   { name: "Team", href: "/team", icon: Users },
   { name: "Achievements", href: "/achievements", icon: Trophy },
 ];
@@ -42,7 +38,6 @@ export default function Navbar({ className }) {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<<<<<<< HEAD
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link
@@ -82,58 +77,14 @@ export default function Navbar({ className }) {
                 </Link>
               );
             })}
-=======
-        <div className="flex items-center h-16">
-          {/* Left Section - Logo */}
-          <div className="flex-1 flex justify-start">
-            <Link
-              href="/"
-              className="flex items-center space-x-1 md:hover:opacity-80 md:transition-opacity"
-            >
-              <Image
-                src={logo}
-                alt="GROBOTS Logo"
-                width={40}
-                height={40}
-                className="w-8 sm:w-10 md:w-12"
-                priority
-              />
-              <span className="text-lg sm:text-xl font-bold text-white font-['Erode']">
-                GROBOTS
-              </span>
-            </Link>
->>>>>>> 9642ec56d920a7a77dd51af5d08f3ec7049470b8
           </div>
 
-          {/* Center Section - Desktop Navigation */}
-          <div className="hidden md:flex flex-1 justify-center">
-            <div className="flex items-center space-x-6 lg:space-x-8">
-              {navigationItems.map((item) => {
-                const isActive =
-                  pathname === item.href ||
-                  (item.href !== "/" && pathname.startsWith(item.href));
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`text-sm cursor-target lg:text-base font-medium md:transition-colors ${
-                      isActive
-                        ? "text-gray-100"
-                        : "text-gray-500 md:hover:text-white"
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Right Section - Mobile Menu Button */}
-          <div className="flex-1 flex justify-end">
+          {/* Right Section */}
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-800 md:transition-colors"
+              className="md:hidden p-2 rounded-lg text-gray-300 hover:bg-gray-800 md:transition-colors"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
@@ -161,7 +112,7 @@ export default function Navbar({ className }) {
                     className={`flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium md:transition-colors ${
                       isActive
                         ? "bg-gray-200 text-black"
-                        : "text-gray-600 hover:bg-gray-800 hover:text-white"
+                        : "text-gray-300 hover:bg-gray-800 hover:text-white"
                     }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >

@@ -2,6 +2,21 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Custom scrollbar styles */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Supreme font faces served from /public/fonts */
 @font-face {
   font-family: "Supreme";
