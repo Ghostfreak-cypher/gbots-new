@@ -17,7 +17,7 @@ function Projects() {
         Chassis: 'Aluminium T6061 Alloy',
         Panels: 'AR500 Steel',
         Wheels: 'Collson Rubber Wheels',
-        Sensors: 'String-based system',
+        
       },
       weaponSystem: 'Semi-Vertical Drum (high-impact, high-speed configuration)',
       driveSystem: ['Inginium P2 10 Gearbox', 'H700 Motor', 'Secure 120A ESC'],
@@ -39,7 +39,6 @@ function Projects() {
         Chassis: 'Aluminium T6061 Alloy',
         Panels: 'AR500 Steel',
         Wheels: 'Collson Rubber Wheels',
-        Sensors: 'String-based system',
       },
       weaponSystem: 'Semi-Vertical Drum',
       driveSystem: ['Inginium P219 Gearbox', 'Turbo Motors', 'Secure 120A ESC'],
