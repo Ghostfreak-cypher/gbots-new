@@ -1,7 +1,6 @@
-// EventsGrid.js
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import { eventsAPI, apiUtils } from "@/lib/apiService";
+import { achievementsAPI, apiUtils } from "@/lib/apiService";
 import Card from '../ui/card';
 
 const AchievementGrid = ({ filters }) => {
@@ -14,11 +13,15 @@ const AchievementGrid = ({ filters }) => {
   useEffect(() => {
     let isMounted = true;
     setLoading(true);
-    eventsAPI
+    achievementsAPI
       .getAll(effectiveFilters)
       .then((res) => {
         if (!isMounted) return;
-        const list = Array.isArray(res?.events) ? res.events : [];
+        const list = Array.isArray(res?.achievements)
+          ? res.achievements
+          : Array.isArray(res?.data)
+          ? res.data
+          : [];
         setItems(list);
       })
       .catch((err) => setError(apiUtils.handleError(err)))
@@ -29,14 +32,14 @@ const AchievementGrid = ({ filters }) => {
   }, [effectiveFilters]);
 
   const cards = useMemo(() => {
-    return items.map((e) => ({
-      id: e.id,
-      title: e.name || e.title,
-      description: e.description,
-      date: e.startDate,
-      location: e.location,
-      image: e.poster,
-      status: e.status,
+    return items.map((a) => ({
+      id: a._id || a.id,
+      title: a.nameOfEvent || a.title,
+      description: a.shortDescription || a.longDescription,
+      date: a.dateOfEvent,
+      location: a.location,
+      image: Array.isArray(a.images) && a.images.length > 0 ? a.images[0] : null,
+      status: a.winningPosition || a.prizeWon,
     }));
   }, [items]);
 
@@ -59,7 +62,7 @@ const AchievementGrid = ({ filters }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
       {cards.map((c) => (
-        <EventCard key={c.id} {...c} cursorTarget={true} />
+        <Card key={c.id} {...c} cursorTarget={true} />
       ))}
     </div>
   );

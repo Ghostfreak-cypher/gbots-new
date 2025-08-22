@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useMemo } from "react";
+import React from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -16,19 +17,25 @@ const ScrollReveal = ({
   textClassName = "",
   rotationEnd = "bottom bottom",
   wordAnimationEnd = "bottom bottom",
+  // New controls: keep final state visible by default
+  scrub = false,
+  once = true,
 }) => {
   const containerRef = useRef(null);
 
   const splitText = useMemo(() => {
-    const text = typeof children === "string" ? children : "";
-    return text.split(/(\s+)/).map((word, index) => {
-      if (word.match(/^\s+$/)) return word;
-      return (
-        <span className="inline-block word" key={index}>
-          {word}
-        </span>
-      );
-    });
+    if (typeof children === "string") {
+      return children.split(/(\s+)/).map((word, index) => {
+        if (word.match(/^\s+$/)) return word;
+        return (
+          <span className="inline-block word" key={index}>
+            {word}
+          </span>
+        );
+      });
+    }
+    // Fallback: render children as-is when not a plain string
+    return children;
   }, [children]);
 
   useEffect(() => {
@@ -51,7 +58,8 @@ const ScrollReveal = ({
           scroller,
           start: "top bottom",
           end: rotationEnd,
-          scrub: true,
+          scrub,
+          once,
         },
       }
     );
@@ -70,7 +78,8 @@ const ScrollReveal = ({
           scroller,
           start: "top bottom-=20%",
           end: wordAnimationEnd,
-          scrub: true,
+          scrub,
+          once,
         },
       }
     );
@@ -88,7 +97,8 @@ const ScrollReveal = ({
             scroller,
             start: "top bottom-=20%",
             end: wordAnimationEnd,
-            scrub: true,
+            scrub,
+            once,
           },
         }
       );

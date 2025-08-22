@@ -17,7 +17,7 @@ function Achievements() {
         </header>
         
         <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent rounded-3xl"></div>
+          <div className="absolute inset-0 rounded-3xl"></div>
           <AchievementGrid />
         </div>
       </div>
