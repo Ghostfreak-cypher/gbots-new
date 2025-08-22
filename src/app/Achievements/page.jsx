@@ -1,17 +1,29 @@
-import React from 'react';
-import AchievementGrid from '../../components/achievements/grid';
+"use client";
 
-export const metadata = {
-  title: 'Our Achievements | Grobots',
-  description: 'Explore the milestones and successes that define our journey in innovation and technology.',
-};
+import React from 'react'
+import AchievementGrid from "@/components/achievements/grid";
 
-export default function AchievementsPage() {
+function Achievements() {
   return (
-    <div className='min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900'>
-      <div className='container mx-auto px-4 py-16'>
-        <AchievementGrid />
+    <main className="w-full min-h-screen py-12 md:py-16 page-transition">
+      <div className="mx-6 md:mx-20">
+        <header className="mb-12 md:mb-16 text-center">
+          <h1 className="text-[10vw] md:text-6xl font-bold leading-tight bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-transparent">
+            Achievements
+          </h1>
+          <p className="mt-4 text-lg md:text-xl text-themed-muted max-w-2xl mx-auto leading-relaxed">
+            Our achievements in robotics, innovation, and competition
+          </p>
+        </header>
+        
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent rounded-3xl"></div>
+          <AchievementGrid />
+        </div>
       </div>
-    </div>
-  );
+    </main>
+  )
 }
+
+export default Achievements
+
