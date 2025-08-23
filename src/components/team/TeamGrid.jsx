@@ -149,7 +149,7 @@ const ChromaGrid = ({
           key={i}
           onMouseMove={handleCardMove}
           onClick={() => handleCardClick(c.url)}
-          className={`group relative flex flex-col rounded-[20px] overflow-hidden border-2 border-transparent transition-colors duration-300 cursor-pointer w-[88vw] xs:w-[92vw] sm:w-[320px] md:w-[340px] lg:w-[350px]`}
+          className={`group relative flex flex-col rounded-[20px] overflow-hidden border-2 border-transparent transition-colors duration-300 cursor-pointer w-[88vw] xs:w-[92vw] sm:w-[320px] md:w-[340px] lg:w-[350px] h-[420px]`}
           style={{
             "--card-border": c.borderColor || "transparent",
             background: c.gradient,
@@ -163,24 +163,28 @@ const ChromaGrid = ({
                 "radial-gradient(circle at var(--mouse-x) var(--mouse-y), var(--spotlight-color), transparent 70%)",
             }}
           />
-          <div className="relative z-10 flex-1 p-[10px] box-border">
+          <div className="relative z-10 flex-1 p-[10px] box-border h-[320px]">
             <img
               src={c.image}
               alt={c.title}
               loading="lazy"
-              className="w-full h-full object-cover rounded-[10px]"
+              className="w-full h-full max-w-[80%] max-h-[70%] object-cover rounded-[10px]"
+              onError={(e) => {
+                // Fallback to a placeholder if image fails to load
+                e.target.src = "https://via.placeholder.com/300x320/1f2937/ffffff?text=Team+Member";
+              }}
             />
           </div>
-          <footer className="relative z-10 p-3 text-white font-sans grid grid-cols-[1fr_auto] gap-x-3 gap-y-1">
-            <h3 className="m-0 text-[1.05rem] font-semibold">{c.title}</h3>
+          <footer className="relative z-10 p-3 text-white font-sans grid grid-cols-[1fr_auto] gap-x-3 gap-y-1 h-[100px] flex-shrink-0">
+            <h3 className="m-0 text-[1.05rem] font-semibold leading-tight">{c.title}</h3>
             {c.handle && (
-              <span className="text-[0.95rem] opacity-80 text-right">
+              <span className="text-[0.95rem] opacity-80 text-right leading-tight">
                 {c.handle}
               </span>
             )}
-            <p className="m-0 text-[0.85rem] opacity-85">{c.subtitle}</p>
+            <p className="m-0 text-[0.85rem] opacity-85 leading-tight">{c.subtitle}</p>
             {c.location && (
-              <span className="text-[0.85rem] opacity-85 text-right">
+              <span className="text-[0.85rem] opacity-85 text-right leading-tight">
                 {c.location}
               </span>
             )}

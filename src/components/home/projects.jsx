@@ -97,7 +97,7 @@ function Projects() {
             A snapshot of what we're building
           </p>
         </header>
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <Slider {...settings}>
             {projects.map((project) => (
               <div key={project.id} className="px-1 sm:px-2 md:px-4">
@@ -116,7 +116,7 @@ function ProjectCard({ project }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <article className="card-base flex flex-col rounded-2xl md:rounded-3xl overflow-hidden">
+    <article className="card-base flex rounded-2xl md:rounded-3xl overflow-hidden">
       {/* Image Section - Takes majority of space in mobile view */}
       <div className="relative w-full aspect-[4/3] md:aspect-[3/1] overflow-hidden">
         <img
@@ -145,7 +145,7 @@ function ProjectCard({ project }) {
         </h3>
 
         {/* Mobile: Collapsible content */}
-        <div className="md:hidden">
+        <div className="md:hidden flex-col">
           {!isExpanded ? (
             <p className="text-sm text-themed-muted leading-relaxed mb-3 sm:mb-4 line-clamp-3">
               {project.description}

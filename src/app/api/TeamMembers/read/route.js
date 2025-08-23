@@ -11,8 +11,9 @@ export async function GET(request) {
     const id = searchParams.get("id");
     const role = searchParams.get("role");
     const department = searchParams.get("department");
-    const year = searchParams.get("year");
-    const activity = searchParams.get("activity");
+    const batch = searchParams.get("batch");
+    const isAlumni = searchParams.get("isAlumni");
+    const isActive = searchParams.get("isActive");
 
     // If ID is provided, fetch specific team member
     if (id) {
@@ -43,45 +44,48 @@ export async function GET(request) {
     const filter = {};
 
     if (role) {
-      if (!["HOD", "Coordinator", "Assistant Coordinator"].includes(role)) {
-        return NextResponse.json(
-          {
-            error:
-              "Invalid role. Must be HOD, Coordinator, or Assistant Coordinator",
-          },
-          { status: 400 }
-        );
-      }
-      filter.Role = role;
+      filter.role = role;
     }
 
     if (department) {
       filter.department = department;
     }
 
-    if (year) {
-      const yearNum = parseInt(year);
-      if (![1, 2, 3, 4].includes(yearNum)) {
-        return NextResponse.json(
-          { error: "Invalid year. Must be 1, 2, 3, or 4" },
-          { status: 400 }
-        );
-      }
-      filter.year = yearNum;
+    if (batch) {
+      filter.batch = batch;
     }
 
-    if (activity !== null && activity !== undefined) {
-      filter.activity = activity === "true";
+    if (isAlumni !== null && isAlumni !== undefined) {
+      filter.isAlumni = isAlumni === "true";
     }
 
-    // Fetch team members with filters
-    const teamMembers = await TeamMember.find(filter).sort({ createdAt: -1 });
+    if (isActive !== null && isActive !== undefined) {
+      filter.isActive = isActive === "true";
+    }
+
+    // Default to showing active members if no specific filter
+    if (Object.keys(filter).length === 0) {
+      filter.isActive = true;
+    }
+
+    // Fetch team members with filters and add ID field
+    const teamMembers = await TeamMember.find(filter)
+      .sort({ batch: -1, _id: 1 }) // Sort by batch descending, then by ID ascending
+      .lean() // Convert to plain objects for better performance
+      .exec();
+
+    // Add ID field to each member for frontend sorting
+    const membersWithId = teamMembers.map(member => ({
+      ...member,
+      id: member._id.toString(), // Convert ObjectId to string
+      _id: member._id.toString() // Also keep _id as string for compatibility
+    }));
 
     return NextResponse.json(
       {
         message: "Team members retrieved successfully",
-        count: teamMembers.length,
-        teamMembers,
+        count: membersWithId.length,
+        teamMembers: membersWithId,
       },
       { status: 200 }
     );

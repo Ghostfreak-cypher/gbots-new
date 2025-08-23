@@ -173,8 +173,9 @@ export const teamAPI = {
       const params = new URLSearchParams();
       if (filters.role) params.append('role', filters.role);
       if (filters.department) params.append('department', filters.department);
-      if (filters.year) params.append('year', filters.year);
-      if (filters.activity !== undefined) params.append('activity', filters.activity);
+      if (filters.batch) params.append('batch', filters.batch);
+      if (filters.isAlumni !== undefined) params.append('isAlumni', filters.isAlumni);
+      if (filters.isActive !== undefined) params.append('isActive', filters.isActive);
       
       const response = await apiClient.get(`/TeamMembers/read?${params}`);
       return response.data;

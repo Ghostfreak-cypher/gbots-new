@@ -8,7 +8,7 @@ import { useApiData } from "@/lib/hooks/useApi";
 function Team() {
   const { data, loading, error } = useApiData(
     async () => {
-      const res = await teamAPI.getAll({ activity: true });
+      const res = await teamAPI.getAll({ isActive: true });
       if (Array.isArray(res?.teamMembers)) return res.teamMembers;
       if (Array.isArray(res)) return res;
       return [];
@@ -18,27 +18,44 @@ function Team() {
   );
 
   const gridItems = useMemo(() => {
-    return (data || []).map((m) => ({
-      image: m.image || m.photo,
-      title: m.name || m.fullName || "Team Member",
-      subtitle: m.department || m.branch || m.course || "",
-      handle: m.rollNo ? `#${m.rollNo}` : "",
-      location: m.Role || "",
-      url: m.profileUrl || m.linkedin || m.github || "",
+    // Sort team members by batch (year) first, then by ID
+    const sortedData = [...(data || [])].sort((a, b) => {
+      // First sort by batch (year) - descending order (newest first)
+      const batchA = parseInt(a.batch) || 0;
+      const batchB = parseInt(b.batch) || 0;
+      if (batchA !== batchB) {
+        return batchB - batchA;
+      }
+      
+      // If same batch, sort by ID (ascending)
+      return (a.id || 0) - (b.id || 0);
+    });
+
+    return sortedData.map((m) => ({
+      image: m.image || "",
+      title: m.name || "Team Member",
+      subtitle: m.department || "",
+      handle: m.role || "",
+      location: m.isAlumni ? `Alumni (${m.batch})` : `Current (${m.batch})`,
+      url: m.social?.linkedin || m.social?.github || "",
       borderColor:
-        m.Role === "HOD"
+        m.role === "Ex HOD / Mentor"
           ? "#F59E0B"
-          : m.Role === "Coordinator"
+          : m.role === "Club Lead"
           ? "#3B82F6"
           : "#64748B",
       gradient:
-        m.Role === "HOD"
+        m.role === "Ex HOD / Mentor"
           ? "linear-gradient(145deg,#F59E0B,#000)"
-          : m.Role === "Coordinator"
+          : m.role === "Club Lead"
           ? "linear-gradient(210deg,#3B82F6,#000)"
           : "linear-gradient(165deg,#334155,#000)",
     }));
   }, [data]);
+
+  // Debug information
+  console.log("Raw data received:", data);
+  console.log("Processed grid items:", gridItems);
 
   return (
     <main className="w-full min-h-screen py-12 md:py-16 page-transition">
@@ -59,6 +76,19 @@ function Team() {
               {String(error)}
             </div>
           )}
+          {loading && (
+            <div className="mb-6 p-4 rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-300 text-sm">
+              Loading team members...
+            </div>
+          )}
+          
+          {/* Debug info */}
+          {!loading && !error && (
+            <div className="mb-6 p-4 rounded-xl border border-green-500/30 bg-green-500/10 text-green-300 text-sm">
+              Loaded {gridItems.length} team members. Check console for debug info.
+            </div>
+          )}
+          
           <ChromaGrid items={gridItems} />
         </div>
       </div>

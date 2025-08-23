@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:seed": "node src/scripts/seedDatabase.js",
+    "db:wipe": "node src/scripts/wipeDatabase.js",
+    "db:reset": "npm run db:wipe && npm run db:seed",
+    "db:add-member": "node src/scripts/addTeamMember.js"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.3",
@@ -17,6 +21,7 @@
     "@splinetool/react-spline": "^4.1.0",
     "autoprefixer": "^10.4.21",
     "axios": "^1.11.0",
+    "cloudinary": "^2.7.0",
     "gsap": "^3.13.0",
     "locomotive-scroll": "^4.1.4",
     "lucide-react": "^0.540.0",

@@ -7,18 +7,17 @@ const TeamMember = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    rollNo: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-    },
-    course: {
+    role: {
       type: String,
       required: true,
       trim: true,
     },
-    branch: {
+    department: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    bio: {
       type: String,
       required: true,
       trim: true,
@@ -28,30 +27,43 @@ const TeamMember = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    year: {
-      type: Number,
-      required: true,
+    skills: [{
+      type: String,
+      trim: true,
+    }],
+    achievements: [{
+      type: String,
+      trim: true,
+    }],
+    social: {
+      email: {
+        type: String,
+        default: "",
+      },
+      linkedin: {
+        type: String,
+        default: "#",
+      },
+      github: {
+        type: String,
+        default: "#",
+      },
+      instagram: {
+        type: String,
+        default: "#",
+      },
     },
-    activity: {
+    isAlumni: {
       type: Boolean,
       required: true,
       default: false,
     },
-    Role: {
-      type: String,
-      enum: ["HOD", "Coordinator", "Assistant Coordinator","Alumini"],
-      required: true,
-    },
-    department: {
+    batch: {
       type: String,
       required: true,
       trim: true,
     },
-    yearOfLeaving: {
-      type: Number,
-      default: null,
-    },
-    isMember: {
+    isActive: {
       type: Boolean,
       required: true,
       default: true,
