@@ -5,42 +5,48 @@ import dbConnect from '../lib/db.js';
 import { v2 as cloudinary } from 'cloudinary';
 import fs from 'fs';
 import path from 'path';
+import dotenv from 'dotenv';
 
-// Configure Cloudinary directly with credentials
-cloudinary.config({
-  cloud_name: 'dv0rm0k0r',
-  api_key: '362822825989394',
-  api_secret: 'xahTTUB7B8N3dNTOo6_NXz8htxk',
+dotenv.config({ path: '.env' });
+
+console.log({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+
 // Function to upload image to Cloudinary
-async function uploadImageToCloudinary(imagePath, memberName) {
+async function uploadImageToCloudinary(imagePath, memberName, batch) {
   try {
     // Check if image path is already a Cloudinary URL
     if (imagePath.startsWith('http') && imagePath.includes('cloudinary')) {
       console.log(`✓ Image already on Cloudinary for ${memberName}`);
       return imagePath;
     }
-
     // Check if local image exists
     const publicPath = path.join(process.cwd(), 'public', imagePath);
     if (!fs.existsSync(publicPath)) {
       console.log(`⚠ Local image not found for ${memberName}: ${publicPath}`);
       return imagePath; // Return original path if local image doesn't exist
     }
-
     console.log(`📤 Uploading image to Cloudinary for ${memberName}...`);
-    
+
     // Upload to Cloudinary
     const result = await cloudinary.uploader.upload(publicPath, {
-      folder: 'grobots/team-members',
+      folder: `grobots/team-members/${batch}`,
       public_id: `grobots-${memberName.toLowerCase().replace(/\s+/g, '-')}`,
       transformation: [
         { quality: "auto" },
         { fetch_format: "auto" }
       ]
     });
-
     console.log(`✓ Image uploaded to Cloudinary for ${memberName}: ${result.secure_url}`);
     return result.secure_url;
   } catch (error) {
@@ -54,9 +60,9 @@ async function seedDatabase() {
   try {
     console.log('🔌 Connecting to database...');
     await dbConnect();
-    
+
     console.log('📊 Starting team member seeding/update process...');
-    
+
     const results = {
       created: 0,
       updated: 0,
@@ -66,10 +72,14 @@ async function seedDatabase() {
     for (const memberData of teamData.leadership.members) {
       try {
         console.log(`\n🔄 Processing: ${memberData.name}`);
-        
+
         // Upload image to Cloudinary
-        const cloudinaryImageUrl = await uploadImageToCloudinary(memberData.image, memberData.name);
-        
+        const cloudinaryImageUrl = await uploadImageToCloudinary(
+          memberData.image,
+          memberData.name,
+          memberData.batch
+        );
+
         // Prepare member data
         const memberDoc = {
           name: memberData.name,
@@ -102,7 +112,6 @@ async function seedDatabase() {
           console.log(`✓ Created: ${memberData.name} (${memberData.role})`);
           results.created++;
         }
-
       } catch (error) {
         console.error(`❌ Error processing ${memberData.name}:`, error.message);
         results.errors++;
@@ -127,7 +136,7 @@ async function seedDatabase() {
 
     console.log('\n🎉 Database seeding/update completed successfully!');
     process.exit(0);
-    
+
   } catch (error) {
     console.error('❌ Error in seeding process:', error);
     process.exit(1);

@@ -2,6 +2,7 @@
   "name": "gbots",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -22,6 +23,7 @@
     "autoprefixer": "^10.4.21",
     "axios": "^1.11.0",
     "cloudinary": "^2.7.0",
+    "dotenv": "^17.2.1",
     "gsap": "^3.13.0",
     "locomotive-scroll": "^4.1.4",
     "lucide-react": "^0.540.0",
