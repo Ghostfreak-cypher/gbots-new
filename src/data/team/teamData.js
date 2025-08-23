@@ -406,6 +406,26 @@ export const teamData = {
         branch: "EC",
       },
       {
+        id: 16,
+        name: "Vansh Goel",
+        role: "Team Member",
+        department: "AI & ML",
+        bio: "Artificial intelligence and machine learning specialist.",
+        image: "/2027/vansh.jpg",
+        skills: ["AI/ML", "Machine Learning", "Data Science"],
+        achievements: ["Active Team Member"],
+        social: {
+          email: "vanshgoel979@gmail.com",
+          linkedin: "https://www.linkedin.com/in/vansh-goel-700779277/",
+          github: "#",
+          instagram: "https://www.instagram.com/vannsh_goel",
+        },
+        isAlumni: false,
+        batch: "2025",
+        rollNumber: "2301221530065",
+        branch: "AL",
+      },
+      {
         id: 17,
         name: "Mayank Yadav",
         role: "Team Member",
@@ -802,6 +822,64 @@ export const teamData = {
         ],
         image:
           "https://api.placeholder.com/600x400/7c3aed/ffffff?text=R%26D+Division",
+      },
+      {
+        id: 33, // Assign a unique ID
+        name: "Praharsh Singh",
+        role: "Club Lead", // Adjust role as needed
+        department: "BCA", // Department can be adjusted if needed
+        bio: "Passionate about robotics and technology, with a focus on innovation and problem-solving.", // Customize bio
+        image: "/2025/praharsh.jpg", // Path to the image, to be added manually
+        skills: [
+          "Robotics",
+          "Programming",
+          "Leadership",
+          "Problem-Solving",
+        ], // Customize skills
+        achievements: [
+          "Club Lead",
+          "Innovation Award",
+          "Project Excellence",
+        ], // Customize achievements
+        social: {
+          email: "", // Add email if available
+          linkedin: "https://www.linkedin.com/in/praharsh-singh-822a1224b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", // Add LinkedIn profile if available
+          github: "https://github.com/Praharsh7270", // Add GitHub profile if available
+          instagram: "https://www.instagram.com/praharshsingh63/", // Add Instagram profile if available
+        },
+        isAlumni: true,
+        batch: "2024",
+        rollNumber: "", // Add roll number if available
+        branch: "BCA",
+      },
+      {
+        id: 34, // Assign a unique ID
+        name: "Aditya Tripathi",
+        role: "Club Lead", // Adjust role as needed
+        department: "BCA", // Department can be adjusted if needed
+        bio: "Dedicated to advancing robotics and automation, with a strong background in technology and teamwork.", // Customize bio
+        image: "/2025/aditya.jpg", // Path to the image, to be added manually
+        skills: [
+          "Robotics",
+          "Automation",
+          "Team Management",
+          "Innovation",
+        ], 
+        achievements: [
+          "Club Lead",
+          "Technical Excellence",
+          "Community Contributor",
+        ], 
+        social: {
+          email: "",
+          linkedin: "#", 
+          github: "#", 
+          instagram: "#",
+        },
+        isAlumni: true,
+        batch: "2024",
+        rollNumber: "", 
+        branch: "BCA",
       },
     ],
   },
